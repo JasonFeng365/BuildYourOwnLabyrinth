@@ -4,7 +4,9 @@
 	font-display: swap;
 }
 
-
+p {
+	font-size: 20px;
+}
 
 body::after {
 	content: "";

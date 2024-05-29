@@ -1,4 +1,4 @@
-var canvas = this.__canvas = new fabric.Canvas('editor', {selection: false, preserveObjectStacking: true});
+var canvas = this.__canvas = new fabric.StaticCanvas('editor');
 // create a rect object
 var deleteIcon = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
 
@@ -21,98 +21,6 @@ var curSelectedItem = null
 let endpoint = "http://localhost:5000/api/"
 
 let tiles = Array(25)
-
-function keyListener(e) {
-	let k = e.key
-	if (k<'1' || k>'6') return
-	if (!curSelectedItem) return
-
-	let o = curSelectedItem
-	if (o.bidx == 0 || o.bidx == 24) return
-
-	k -= '1'
-
-	let prevColor = o.item(o.tileType).item(0).get('fill')
-
-	o.item(o.tileType).set('visible', false)
-	o.tileType = k
-	o.item(o.tileType).set('visible', true)
-	o.item(o.tileType).item(0).set('fill', prevColor)
-
-	canvas.renderAll();
-	vue.levelCode = getLevelData()
-
-}
-
-var canvasWrapper = document.getElementById('editor-keylistener');
-canvasWrapper.tabIndex = 1;
-canvasWrapper.addEventListener("keydown", keyListener);
-
-function letGo() {
-	if (!curSelectedItem) return
-
-	let o = curSelectedItem
-
-	if (o.bheight == 0) o.item(o.tileType).item(0).set('fill', '#606060')
-	else o.item(o.tileType).item(0).set('fill', 'black')
-
-	if (o.bidx==0) o.item(o.tileType).item(0).set('fill', 'orange')
-	if (o.bidx==24) o.item(o.tileType).item(0).set('fill', 'green')
-	curSelectedItem = null
-}
-
-canvas.on({
-	'object:moving': function(e) {
-		var o = e.target
-		o.opacity = 0.5
-
-		o.left = 208 + (o.bcol-o.brow)*47
-		o.bheight = 9 + Math.round(((o.bcol+o.brow)*27-(o.top-45))/18)
-		if (o.bheight < 0) o.bheight = 0
-		if (o.bheight > 10) o.bheight = 10
-		if ((o.bidx==0 || o.bidx==24) && o.bheight < 1) o.bheight = 1
-		o.top = 206 + (o.bcol+o.brow)*27 + o.bheight * -18
-	},
-	'object:modified': function(e) {
-		var o = e.target
-		o.opacity = 1;
-
-		vue.levelCode = getLevelData()
-	},
-	'mouse:down': function(e) {
-		var o = e.target
-		if (!o) {
-			letGo()
-			return
-		}
-
-		letGo()
-		curSelectedItem = o
-		o.item(o.tileType).item(0).set('fill', '#FFFFFF');
-	},
-	'mouse:over': function(e) {
-		var o = e.target
-		if (!o) return
-		if (o == curSelectedItem) return
-
-
-		o.item(o.tileType).item(0).set('fill', '#c0c0c0')
-		canvas.renderAll();
-	},
-	'mouse:out': function(e) {
-		var o = e.target
-		if (!o) return
-		if (o == curSelectedItem) return
-
-		if (o.bheight == 0) o.item(o.tileType).item(0).set('fill', '#606060')
-		else o.item(o.tileType).item(0).set('fill', 'black')
-
-		if (o.bidx==0) o.item(o.tileType).item(0).set('fill', 'orange')
-		if (o.bidx==24) o.item(o.tileType).item(0).set('fill', 'green')
-
-		canvas.renderAll();
-	},
-});
 
 function addSingleTile(r, c) {
 	var flat, slope1, slope2, slope3, slope4, coin
@@ -224,23 +132,18 @@ let dataLookup = [
 	"uvwxyUVWXY",
 	"0123456789",
 ]
-function getLevelData() {
-	let res = ""
-	for (let i=0; i<25; i++) {
-		let o = tiles[i]
-		if (o.bheight) res += dataLookup[o.tileType][o.bheight-1]
-		else res += 'z'
-	}
-	return res
-}
+
+
 
 let vue;
-new Vue({
-	el: '#editorVue',
+let mainVue = new Vue({
+	el: '#levelVue',
 	data: {
+		leaderboardName:"",
+		leaderboardData:"",
 		res:"",
-		selection:"1",
-		levelCode:"aaaaaaaaaaaaaaaaaaaaaaaaa"
+		sampleData:Array(8),
+		userData:Array(8)
 	},
 	computed: {
 		lowest(){
@@ -248,28 +151,143 @@ new Vue({
 		},
 	},
 	methods: {
-		submit() {
+		findLetter(x) {
+			for (let tileType=0; tileType<6; tileType++) {
+				for (let height = 0; height < 10; height++) {
+					if (dataLookup[tileType][height] == x)
+						return {
+							tileType:tileType,
+							bheight:height+1,
+						}
+				}
+			}
+			return {
+				tileType:0,
+				bheight:0,
+			}
+		},
+		parseGrid(grid) {
+			let res = Array(25)
+			
+			for (let i=0; i<25; i++) res[i] = vue.findLetter(grid[i])
+			return res
+		},
+		parseData(jsonData) {
+			return {
+				grid:vue.parseGrid(jsonData.grid),
+				leaderboard: {
+					user1: {
+						name:jsonData.leaderboard.user1.substring(0, 10),
+						score:jsonData.leaderboard.user1.substring(11),
+					},
+					user2: {
+						name:jsonData.leaderboard.user2.substring(0, 10),
+						score:jsonData.leaderboard.user2.substring(11),
+					},
+					user3: {
+						name:jsonData.leaderboard.user3.substring(0, 10),
+						score:jsonData.leaderboard.user3.substring(11),
+					},
+				}
+			}
+		},
+		setCanvas(data) {
+			console.log(tiles)
+			console.log(data)
+			for (let i=0; i<25; i++) {
+				let tile = tiles[i]
+				let tileData = data[i]
+
+				tile.tileType = tileData.tileType
+				tile.bheight = tileData.bheight
+
+				for (let j=0; j<6; j++) tile.item(j).set('visible', false)
+
+				tile.item(tile.tileType).set('visible', true)
+				tile.top = 206 + (tile.bcol+tile.brow)*27 + tile.bheight * -18
+				if (tile.bheight == 0)
+					tile.item(tile.tileType).item(0).set('fill', '#606060')
+				else
+					tile.item(tile.tileType).item(0).set('fill', 'black')
+				if (tile.bidx==0) tile.item(tile.tileType).item(0).set('fill', 'orange')
+				if (tile.bidx==24) tile.item(tile.tileType).item(0).set('fill', 'green')
+			}
+
+			canvas.renderAll();
+			
+		},
+		setLeaderboards(data, header) {
+			lb.leaderboardName = "Top three scores for " + header
+			let string = ""
+			for (let i=0; i<3; i++) {
+				let user = data["user"+(i+1)]
+				if (user.score == "000") continue
+
+				string += "<p>"
+				string += (i+1)+": "+user.name+", "+user.score
+				string += "</p>"
+			}
+			if (string=="") string = "<p>No users yet!</p>"
+			lb.leaderboardData = string
+		},
+		sample(i) {
+			vue.setCanvas(vue.sampleData[i-1].grid)
+			vue.setLeaderboards(vue.sampleData[i-1].leaderboard, "Sample Level "+i)
+		},
+		user(i) {
+			vue.setCanvas(vue.userData[i-1].grid)
+			vue.setLeaderboards(vue.userData[i-1].leaderboard, "User Level "+i)
+		},
+		initializeData() {
 			vue.res = "Connecting to server..."
-			fetch(endpoint+"test/").then(res => {
-				vue.res = "Sending data..."
-				fetch(endpoint+"newUserLevel/", {
-					method: "POST",
-					headers: {
-						"LevelData":getLevelData(),
-						"LevelNum":vue.selection
-					}
-				}).then(res => {
-					if (res.ok)vue.res = "Saved to User Level " + vue.selection
-					else vue.res = "Unable to save!"
-				}).catch(res => {
-					vue.res = "Can't connect to server!"
+			fetch(endpoint+"getData/").then(res => {
+				vue.res = "Parsing data..."
+				res.json().then(res => {
+					console.log(res)
+					for (let i=0; i<8; i++)
+						vue.sampleData[i] = vue.parseData(res.state.desired["samplelevel"+(i+1)])
+					for (let i=0; i<8; i++) 
+						vue.userData[i] = vue.parseData(res.state.desired["userlevel"+(i+1)])
+					vue.res = ""
+					console.log(vue.sampleData)
+					console.log(vue.userData)
+
+				}).catch(err => {
+					vue.res = "Unable to parse data!"
+					console.log(err)
 				})
-			}).catch(res => {
-				vue.res = "Can't connect to server!"
-			})
+				
+			}).catch(err => vue.res = "Can't connect to server!")
 		}
 	},
 	mounted: function() {
 		vue = this
+		vue.initializeData()
 	}
 });
+
+new Vue({
+	el: '#sampleVue',
+	methods: {
+		sample(i) {
+			vue.sample(i)
+		}
+	}
+});
+
+new Vue({
+	el: '#userVue',
+	methods: {
+		user(i) {
+			vue.user(i)
+		}
+	}
+});
+
+let lb = new Vue({
+	el: '#lb',
+	data: {
+		leaderboardName:"",
+		leaderboardData:""
+	}
+})

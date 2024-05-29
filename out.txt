@@ -1,0 +1,20 @@
+
+<h3>Navigating menus</h3>
+<p>The AT&T S10-S3 Universal Remote is used to navigate through the menus. Press 2 to move the cursor up, 4 for left, 6 for right, and 8 for down. Press 5 to select an option, and 1 to navigate to the previous menu.</p>
+
+<h3>Entering username</h3>
+<p>The default username is <b>PLAYER</b>. To enter a custom username, navigate to the main menu and then select <b>Change Username</b>. This will open a prompt to enter a username to be used. Usernames are used in level leaderboards, where the top three fastest times are recorded.</p>
+<p>Usernames are composed of all capital letters have a maximum length of <b>10</b> characters. To enter a character, number pad <b>2</b> through <b>9</b> loop through the letters listed by the button. For example, pressing <b>2</b> once inputs <b>A</b>, pressing <b>2</b> twice inputs <b>B</b>, three for <b>C</b>, four for <b>A</b>, and so forth. <b>0</b> can be used to input a space.</p>
+<p><b>LAST</b> is a backspace that deletes the most recently-entered character. <b>MUTE</b> saves the username and returns to the previous menu. Finally, <b>1</b> returns to the previous menu without saving.</p>
+
+<h3>Level select</h3>
+<p>There are two types of levels: sample levels and user levels. Sample levels cannot be changed, and their leaderboards are never reset. Sample levels act as a tutorial for users to get accustomed to the controls of the game.</p>
+<p>Users can create their own levels with the level editor, which can be played in the user levels. As there are only eight user levels available, user levels can be overridden by new levels. User levels' leaderboards are reset whenever a new level takes its place.</p>
+
+<h3>Leaderboards</h3>
+<p>The level select screens have options to view leaderboards. Pressing this button opens a display where the top three times per level are displayed. Pressing <b>4</b> navigates to the previous level's leaderboard, wrapping around to <b>8</b> if on level <b>1</b>, and pressing <b>8</b> navigates to the next level's leaderboard.</p>
+
+<h3>Gameplay</h3>
+<p>Each level is played on a <b>5</b> by <b>5</b> grid comprised of tiles. The player controls a marble by tilting the TI CC3200 LaunchPad, which controls the speed and direction of the marble. The goal is to roll the marble from it's starting point, the topmost tile of the grid, to the goal, the bottom tile of the grid, in the least time possible. The top three users will have their times recorded in the leaderboards for each level.</p>
+<p>Falling off the map resets the marble to it's starting point, giving the player another chance to reach the goal.</p>
+<p>During gamplay, pressing <b>1</b> on the remote returns to the previous menu, if the user wants to exit the level early.</p>

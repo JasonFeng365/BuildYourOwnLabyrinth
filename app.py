@@ -16,7 +16,7 @@ def getShadow():
 	print("GET finished with response", r.status_code)
 	# print(r.text)
 
-	return eval(r.text)
+	return r
 
 def postMazeData(payload):
 	caPath = "../certificates/rootCA.der"
@@ -27,18 +27,16 @@ def postMazeData(payload):
 	# payload= '{"state": {"desired": {"mazedata": "'+data+'"}}}'
 	r = requests.post(f'https://{endpoint}:8443/things/Jason_CC3200_Part1/shadow', data=str(payload).replace("\'", "\""), cert=(certPath,keyPath,caPath))
 	print("POST finished with response", r.status_code)
-	print(r.text)
+	# print(r.text)
 
 	return r.status_code
 
-payload = {}
-payload["state"] = {}
-payload["state"]["desired"] = {}
-payload["state"]["desired"]["mazedata"] = "Some Python Maze Data?"
 
 def validateCode(code):
 	if len(code) != 25: return False
-	for x in code:
+	for i, x in enumerate(code):
+		# Slopes cannot have height 10
+		if 0<i<24 and x in "yJY9": return False
 		if x == 'z' or ord('a') <= ord(x) < ord('z') or ord('A') <= ord(x) < ord('Z'): continue
 		return False
 	return True
@@ -78,23 +76,18 @@ def newUserLevel():
 			}
 		}
 	}
-	# payload["state"] = {}
-	# payload["state"]["desired"] = {}
-	# payload["state"]["desired"]["user"+str(level)]
-
 	shadowStatus = postMazeData(payload)
-	# print(shadowStatus)
 
 	if shadowStatus != 200: return "Internal error", shadowStatus
-
-	# print(getShadow())
-
 	return "OK", 200
-	
-	
 
-	# return response
+@app.route("/api/getData/", methods=['GET'])
+def getData():
+	r = getShadow()
+	if r.status_code == 200: return r.text, 200
+	else: return "ERROR", 400
 
+# print(len(getShadow().text))
 
 """
 Static GitHub Page
@@ -127,10 +120,9 @@ CC3200 private API
 		"grid": "level data string........",
 		"leaderboard": {
 			"user1": "Username Time",
-			"user2": "JASON      0001",
-			"user3": "ABCDEFGHIJ 9999"
-		},
-		"timestamp": 123753423
+			"user2": "JASON      001",
+			"user3": "ABCDEFGHIJ 999"
+		}
 	},
 }
 '''
