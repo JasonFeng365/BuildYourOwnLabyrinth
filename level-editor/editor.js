@@ -18,7 +18,7 @@ var curSelectedItem = null
 
 
 
-let endpoint = "http://localhost:5000/api/"
+let endpoint = "http://35.172.222.6:5000/api/"
 
 let tiles = Array(25)
 

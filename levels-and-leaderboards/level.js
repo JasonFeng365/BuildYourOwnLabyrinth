@@ -18,7 +18,7 @@ var curSelectedItem = null
 
 
 
-let endpoint = "http://localhost:5000/api/"
+let endpoint = "http://35.172.222.6:5000/api/"
 
 let tiles = Array(25)
 
@@ -224,7 +224,7 @@ let mainVue = new Vue({
 				if (user.score == "000") continue
 
 				string += "<p>"
-				string += (i+1)+": "+user.name+", "+user.score
+				string += user.name+' - '+user.score
 				string += "</p>"
 			}
 			if (string=="") string = "<p>No users yet!</p>"
