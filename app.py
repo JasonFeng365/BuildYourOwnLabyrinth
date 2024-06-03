@@ -5,10 +5,12 @@ import requests
 app = Flask(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
+# certFolderPath = "../certificates/"
+certFolderPath = ""
 def getShadow():
-	caPath = "../certificates/rootCA.der"
-	certPath = "../certificates/certificate.pem.crt"
-	keyPath = "../certificates/private.pem.key"
+	caPath = certFolderPath+"rootCA.der"
+	certPath = certFolderPath+"certificate.pem.crt"
+	keyPath = certFolderPath+"private.pem.key"
 	endpoint = "a1uxys8rnu3pls-ats.iot.us-east-1.amazonaws.com"
 
 	# payload= '{"state": {"desired": {"mazedata": "'+data+'"}}}'
@@ -19,9 +21,9 @@ def getShadow():
 	return r
 
 def postMazeData(payload):
-	caPath = "../certificates/rootCA.der"
-	certPath = "../certificates/certificate.pem.crt"
-	keyPath = "../certificates/private.pem.key"
+	caPath = certFolderPath+"rootCA.der"
+	certPath = certFolderPath+"certificate.pem.crt"
+	keyPath = certFolderPath+"private.pem.key"
 	endpoint = "a1uxys8rnu3pls-ats.iot.us-east-1.amazonaws.com"
 
 	# payload= '{"state": {"desired": {"mazedata": "'+data+'"}}}'
