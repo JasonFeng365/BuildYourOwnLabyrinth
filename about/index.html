@@ -8,72 +8,173 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 	<link rel="shortcut icon" href="../frontend/favicon.png">
-	<link rel="stylesheet" href="../frontend/substyle.css" />
+	<link rel="stylesheet" href="aboutstyle.css" />
 
 	<title>BYOL | About</title>
 </head>
 <body style="font-family:kanit">
 
-
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark tec">
-	<div class="container-fluid">
-		<a class="navbar-brand">
-			<img src="../frontend/notext.png" style="width:40px;"> 
-		</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="collapsibleNavbar">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" href="../">HOME</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="../how-to-play">HOW TO PLAY</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="../level-editor">LEVEL EDITOR</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="../levels-and-leaderboards">LEVELS AND LEADERBOARDS</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link active" href="../about">ABOUT</a>
-				</li>
-			</ul>
+<div class="fixed-top">
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark tec">
+		<div class="container-fluid">
+			<a class="navbar-brand">
+				<img src="../frontend/notext.png" style="width:40px;"> 
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="../">HOME</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../how-to-play">HOW TO PLAY</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../level-editor">LEVEL EDITOR</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../levels-and-leaderboards">LEVELS AND LEADERBOARDS</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="../about">ABOUT</a>
+					</li>
+				</ul>
+			</div>
 		</div>
-	</div>
-</nav>
+	</nav>
 
+	<nav class="navbar navbar-expand-sm bg-black navbar-dark tec">
+		<div class="container-fluid">
+			<a class="navbar-brand">
+				<span class="navHeader">JUMP TO SECTION</span>
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link" href="#top">TOP</a></li>
+					<li class="nav-item"><a class="nav-link" href="#demo">DEMO</a></li>
+					<li class="nav-item"><a class="nav-link" href="#description">DESCRIPTION</a></li>
+					<li class="nav-item"><a class="nav-link" href="#design">DESIGN</a></li>
+					<li class="nav-item"><a class="nav-link" href="#implementation">IMPLEMENTATION</a></li>
+					<li class="nav-item"><a class="nav-link" href="#challenges">CHALLENGES</a></li>
+					<li class="nav-item"><a class="nav-link" href="#future-work">FUTURE WORK</a></li>
+					<li class="nav-item"><a class="nav-link" href="#bill-of-materials">BILL OF MATERIALS</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 
+</div>
 
+<br><br><br>
 <div class="container-fluid p-5 text-light">
+	<a class="anchor" id="top"></a>
 	<div class="text-center">
 		<h1>About</h1>
 	</div>
 	
 	<div class="row">
-		<div class="col-md-2"></div>
+		<div class="col-md-2">
+		</div>
 		<div class="col-md-8">
+			<a class="anchor" id="demo"></a>
 			<h2>Demo</h2>
 			<div class="row text-center">
-				<div class="col-md-6"><iframe width="350" height="350" src="https://www.youtube.com/embed/9aKoLC3qgV0" title="Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
-				<div class="col-md-6"><iframe width="350" height="350" src="https://www.youtube.com/embed/l5nycuGSXKs" title="Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+				<div class="col-md-6">
+					<iframe width="350" height="350" src="https://www.youtube.com/embed/9aKoLC3qgV0" title="Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+					<h4>Gameplay demo</h4>
+				</div>
+				<div class="col-md-6">
+					<iframe width="350" height="350" src="https://www.youtube.com/embed/l5nycuGSXKs" title="Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+					<h4>Loading indicator demo</h4>
+				</div>
 			</div>
 
-			<h2>Description</h2>
-
-			<h2>Design</h2>
-
-			<h2>Implementation</h2>
-
-			<h2>Challenges</h2>
-
-			<h2>Future Work</h2>
-
-			<h2>Bill of Materials</h2>
-
 			
+			<br><a class="anchor" id="description"></a><h2>Description</h2>
+
+			<br><a class="anchor" id="design"></a><h2>Design</h2>
+
+			<br><a class="anchor" id="implementation"></a><h2>Implementation</h2>
+
+			<br><a class="anchor" id="challenges"></a><h2>Challenges</h2>
+
+			<br><a class="anchor" id="future-work"></a><h2>Future Work</h2>
+
+			<br><a class="anchor" id="bill-of-materials"></a><h2>Bill of Materials</h2>
+			<p>	This final project is software oriented and does not require any material that hasn't already been provided in class. Apart from the already required CC3200 Texas Instrument Microcontroller and AWS account, this project will require the AT&T S10-S3 remote, a Vishay TSOP 31336 Infrared receiver, a 100 ohm resistor, a 100 microfarad capacitor, an Adafruit OLED display board, and various circuit components to connect modules together. No other materials are used, and the project can be completely recreated using only provided laboratory materials.</p>
+			<table class="table text-light">
+				<thead>
+				  <tr>
+					<th scope="col">Item</th>
+					<th scope="col">Description</th>
+					<th scope="col">Manufacturer</th>
+					<th scope="col">Cost</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					<td>1.5" SSD1351 128x128 RGB OLED</td>
+					<td>OLED display for menus and gameplay</td>
+					<td>Adafruit</td>
+					<td>$39.95</td>
+				  </tr>
+				  <tr>
+					<td>CC3200-LAUNCHXL</td>
+					<td>LaunchPad microcontroller</td>
+					<td>Texas Instruments</td>
+					<td>$66.00</td>
+				  </tr>
+				  <tr>
+					<td>S10-S3 Universal Remote</td>
+					<td>Controller for menu navigation</td>
+					<td>AT&T</td>
+					<td>$56.77</td>
+				  </tr>
+				  <tr>
+					<td>AA battery (2pc)</td>
+					<td>Powering remote</td>
+					<td>Generic</td>
+					<td>$1.20</td>
+				  </tr>
+				  <tr>
+					<td>400 Point Solderless Breadboard</td>
+					<td>Connecting LaunchPad, OLED, and IR circuit</td>
+					<td>Generic</td>
+					<td>$0.99</td>
+				  </tr>
+				  <tr>
+					<td>Assorted breadboard jumper wires (10pc)</td>
+					<td>Connecting LaunchPad, OLED, and IR circuit</td>
+					<td>Generic</td>
+					<td>$0.67</td>
+				  </tr>
+				  <tr>
+					<td>TSOP31336</td>
+					<td>IR receiver circuit</td>
+					<td>Vishay</td>
+					<td>$1.40</td>
+				  </tr>
+				  <tr>
+					<td>100Ω resistor</td>
+					<td>IR receiver circuit</td>
+					<td>Generic</td>
+					<td>$0.06</td>
+				  </tr>
+				  <tr>
+					<td>100μF capacitor</td>
+					<td>IR receiver circuit</td>
+					<td>Generic</td>
+					<td>$0.40</td>
+				  </tr>
+				</tbody>
+			  </table>
+			<span>Total cost: $167.44</span>
+			<p>All materials are provided in lab, and no non-lab materials are used, for a net cost of $0.</p>
 
 		</div>
 		<div class="col-md-2"></div>
