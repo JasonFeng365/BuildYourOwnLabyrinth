@@ -38,7 +38,7 @@ def validateCode(code):
 	if len(code) != 25: return False
 	for i, x in enumerate(code):
 		# Slopes cannot have height 10
-		if 0<i<24 and x in "yJY9": return False
+		if 0<i<24 and x in "tJTY": return False
 		if x == 'z' or ord('a') <= ord(x) < ord('z') or ord('A') <= ord(x) < ord('Z'): continue
 		return False
 	return True

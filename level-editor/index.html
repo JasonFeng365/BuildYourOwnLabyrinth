@@ -51,9 +51,32 @@
 <div class="container-fluid p-5 text-center text-light">
 	<h1>Level Editor</h1>
 	
-	<div id="editor-keylistener" class="canvas-container">
-		<canvas id="editor" width="512" height="512" style="border:1px solid #ccc"></canvas>
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-5">
+			<div id="editor-keylistener" class="canvas-container">
+				<canvas id="editor" width="512" height="512" style="border:1px solid #ccc"></canvas>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<h3>Editing</h3>
+			<div class="text-start">
+				<p>Click and drag a tile vertically to change its height.</p>
+				<p>Press numbers 2 through 5 to change the tile slope. Press 1 to reset it. The top and bottom tiles cannot have their slopes changed.</p>
+			</div>
+			<br>
+
+			<h3>Saving</h3>
+			<div class="text-start">
+				<p>Select a level slot 1 through 8 to save in.</p>
+				<p>Click the <b>Save Level</b> button to save the level.</p>
+				<!-- <p>Note that level saving is disabled after the conclusion of UC Davis's Spring 2024 Embedded Systems course. The editor remains useable, but levels cannot be saved.</p> -->
+			</div>
+			
+		</div>
+		<div class="col-md-1"></div>
 	</div>
+	
 	<br>
 
 	<div id="editorVue">
@@ -80,7 +103,7 @@
 			<div class="col-md-4"></div>
 		</div>
 		
-		<h3>Level code: {{levelCode}}</h3>
+		<!-- <h3>Level code: {{levelCode}}</h3> -->
 		<h3>{{res}}</h3>
 	</div>
 </div>

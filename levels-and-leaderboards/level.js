@@ -242,6 +242,7 @@ let mainVue = new Vue({
 			vue.res = "Connecting to server..."
 			fetch(endpoint+"getData/").then(res => {
 				vue.res = "Parsing data..."
+				// res.text().then(res => console.log(res))
 				res.json().then(res => {
 					console.log(res)
 					for (let i=0; i<8; i++)
