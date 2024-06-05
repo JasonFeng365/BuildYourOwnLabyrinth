@@ -33,3 +33,7 @@ p {
 *:focus {
 	outline: none;
 }
+
+code {
+	color: #ffcc00
+}
