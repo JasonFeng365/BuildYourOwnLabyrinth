@@ -94,12 +94,31 @@
 
 			
 			<br><a class="anchor" id="description"></a><h2>Description</h2>
+			<p>Build Your Own Labyrinth is an isometric maze game where the player controls a marble through an obstacle course composed of 25 tiles of various heights. The game has two inputs for controls: the AT&T Universal Remote is used to navigate menus, while the LaunchPad's integrated accelerometer is used to control the marble. SPI is used to display data on the Adafruit OLED, and I2C to stream data from the accelerometer. AWS IoT is used to store level data, along with leaderboards for high-scoring users. There is a static frontend webpage hosted in GitHub Pages which will contain information about the game, such as instructions and a video demo, along with a level editor to submit custom levels and a level and leaderboard viewer. Finally, a Python backend is used to connect the frontend's level editor to the AWS shadow.</p>
+			<p>There are eight sample levels, along with eight user levels. Levels are encoded as a sequence of 25 letters, with each character representing a single tile in the menu. Level data is stored in AWS, with <code>GET</code> requests to retrieve level information to parse into a level. Each level additionally has a leaderboard, which stores the usernames of the top 3 high scorers, along with their scores. This leaderboard is updated when a user finishes a level with a higher score than leaderboard users.</p>
+			<p>In each level, the player must navigate a maze from beginning to end as fast as possible, tilting the LaunchPad to roll the marble in a direction. Score is based on time to reach the exit, starting at <code>800</code> and decrementing every frame to a minimum of <code>0</code>. Accelerometer tilt controls the velocity of the marble. The marble bounces off of walls and rolls down slopes, obeying physics, until it reaches the goal.</p>
+			<p>The frontend integrates a level editor into the project webpage. The frontend is written in Vue.js and Bootstrap for a clean webpage, and the level editor is written in Fabric.js for a responsive and interactive canvas. It can preview sample and user levels using <code>GET</code> requests to an intermediate backend, and upload new levels using <code>POST</code> requests. In addition to the level editor and viewer, the website contains project information such as gameplay instructions and a video demo.</p>
 
 			<br><a class="anchor" id="design"></a><h2>Design</h2>
+
+			<img class="img-fluid rounded mx-auto d-block" src="../lab/statediagram_colorcoded.png">
+			<h6 class="text-center">Fig. 1: State diagram of LaunchPad code. Andrew led orange tasks and Jason led blue tasks.</h6>
+
+			<img class="img-fluid rounded mx-auto d-block" src="../lab/systemarchitecture_colorcoded.png">
+			<h6 class="text-center">Fig. 2: System architecture of entire project. Andrew led orange tasks and Jason led blue tasks.</h6>
+			<br>
+
+
 
 			<br><a class="anchor" id="implementation"></a><h2>Implementation</h2>
 
 			<br><a class="anchor" id="challenges"></a><h2>Challenges</h2>
+			<p>For the main menu, most of the functionality already existed within the previous labs and did not require significant debugging. The main challenges of getting the menu system to work included getting letters to dynamically center in username mode. Initially, when inputting the username, the letters would emerge from left to right. This, however, made the screen empty and not as pleasant to look at. To implement the dynamic centering, the main issue was knowing where to erase and update characters since any user input would change the position of every character. We solved this problem by erasing the line entirely and redrawing the entire char array.</p>
+			<p>Another issue that occurred was the main menu incorrectly changing game states when attempting to play. Whenever a user would attempt to choose a level regardless of whether it was a user or sample level, an additional level select menu would appear urging the user to select a user level. Additionally, levels selected would not be the levels that actually displayed on screen. The cause of our additional menu screen was due to a flag variable that controls the game state changing from gameplay to leaderboard containing a garbage value specifically when attempting to play. The solution to this problem was to initialize the flag variable to zero during setup. The issue of the wrong levels being loaded was due to incorrectly parsing through the AWS shadow data. Not only would the level data be loaded but also the leaderboard data. This was fixed by using a separate variable whose purpose is solely to store level data using <code>memcpy()</code>.</p>
+			<p>One problem encountered regarding gameplay is that there is not enough memory in the LaunchPad to fit a full <code>128</code> x <code>128</code> grid of pixel colors. The team's initial plan was to maintain an entire array of pixels for O(1) access, removing the need to recompute each tile's pixels each frame. Although using a full 128 x 128 grid was not possible, a <code>128</code> wide by <code>97</code> tall grid was used instead, which was enough to hold every pixel while not exceeding the memory limit. This grid maps to the bottom <code>97</code> pixels of the OLED display, and the upper <code>31</code> pixels are simply mapped to black.</p>
+			<p>Regarding communication protocols and sensors, there were no real issues in implementation. The one issue which was swiftly solved (after a day) was Andrew's I2C accelerometer not working. The issue was resolved by changing the onboard jumper configuration- one misplaced jumper was causing the accelerometer to be unable to return data.</p>
+			<p>By far the most pressing challenge was the collision and rendering engine during gameplay. The team spent 20 hours over a weekend mapping out physics logic, and implemented rendering after many mathematical calculations to determine where items should be rendered on the OLED. This task was made even more difficult with the addition of slopes, which required 10 more hours of calculations to ensure the ball can roll up and down slopes. The team successfully finished the engine to achieve a smooth physics engine and an impressive isomorphic point-of-view.</p>
+
 
 			<br><a class="anchor" id="future-work"></a><h2>Future Work</h2>
 

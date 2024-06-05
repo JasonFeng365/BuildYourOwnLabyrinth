@@ -1,24 +1,5 @@
-### Navigating menus
-The AT&T S10-S3 Universal Remote is used to navigate through the menus. Press the volume keys `+` and `-` to move the cursor up and down, and press `MUTE` to select an option. 
-
-### Entering username
-The default username is `PLAYER`. To enter a custom username, navigate to the main menu and then select `Change Username`. This will open a prompt to enter a username to be used. Usernames are used in level leaderboards, where the top three fastest times are recorded.
-
-Usernames have a maximum length of `10` characters, and include lowercase and uppercase letters, numbers, and special characters. To enter a character, number pad `0` through `9` loop through the letters listed by the button. For example, pressing `2` once inputs `A`, pressing `2` twice inputs `B`, three for `C`, four for `A`, and so forth. `0` can be used to input a space. In this mode, volume keys enable and disable caps lock, and channel keys enable and disable number mode for entering numbers. When both caps lock and number mode are enabled, a special character corresponding to the shifted character on a keyboard is input instead: for example, `1` would go to `!`, and `5` would go to `%`.
-
-`LAST` is a backspace that deletes the most recently-entered character. `MUTE` saves the username and returns to the previous menu.
-
-### Level select
-There are two types of levels: sample levels and user levels. Sample levels cannot be changed, and their leaderboards are never reset. Sample levels act as a tutorial for users to get accustomed to the controls of the game.
-
-Users can create their own levels with the level editor, which can be played in the user levels. As there are only eight user levels available, user levels can be overridden by new levels. User levels' leaderboards are reset whenever a new level takes its place.
-
-### Leaderboards
-The top three users per level can be used by navigating to the leaderboards menu, selecting sample or user levels, and selecting a level number. This displays a screen with the top three highest scores. Pressing any key returns to the previous menu.
-
-### Gameplay
-Each level is played on a `5` by `5` grid comprised of tiles. The player controls a marble by tilting the TI CC3200 LaunchPad, which controls the speed and direction of the marble. The goal is to roll the marble from it's starting point, the topmost tile of the grid, to the goal, the bottom tile of the grid, in the least time possible. The top three users will have their times recorded in the leaderboards for each level.
-
-Falling off the map resets the marble to it's starting point, giving the player another chance to reach the goal.
-
-During gamplay, pressing any key on the remote returns to the previous menu, if the user wants to exit the level early.
+For the main menu, most of the functionality already existed within the previous labs and did not require significant debugging. The main challenges of getting the menu system to work included getting letters to dynamically center in username mode. Initially, when inputting the username, the letters would emerge from left to right. This, however, made the screen empty and not as pleasant to look at. To implement the dynamic centering, the main issue was knowing where to erase and update characters since any user input would change the position of every character. We solved this problem by erasing the line entirely and redrawing the entire char array.
+Another issue that occurred was the main menu incorrectly changing game states when attempting to play. Whenever a user would attempt to choose a level regardless of whether it was a user or sample level, an additional level select menu would appear urging the user to select a user level. Additionally, levels selected would not be the levels that actually displayed on screen. The cause of our additional menu screen was due to a flag variable that controls the game state changing from gameplay to leaderboard containing a garbage value specifically when attempting to play. The solution to this problem was to initialize the flag variable to zero during setup. The issue of the wrong levels being loaded was due to incorrectly parsing through the AWS shadow data. Not only would the level data be loaded but also the leaderboard data. This was fixed by using a separate variable whose purpose is solely to store level data using `memcpy()`.
+One problem encountered regarding gameplay is that there is not enough memory in the LaunchPad to fit a full `128` x `128` grid of pixel colors. The team’s initial plan was to maintain an entire array of pixels for O(1) access, removing the need to recompute each tile’s pixels each frame. Although using a full 128 x 128 grid was not possible, a `128` wide by `97` tall grid was used instead, which was enough to hold every pixel while not exceeding the memory limit. This grid maps to the bottom `97` pixels of the OLED display, and the upper `31` pixels are simply mapped to black.
+Regarding communication protocols and sensors, there were no real issues in implementation. The one issue which was swiftly solved (after a day) was Andrew's I2C accelerometer not working. The issue was resolved by changing the onboard jumper configuration- one misplaced jumper was causing the accelerometer to be unable to return data.
+By far the most pressing challenge was the collision and rendering engine during gameplay. The team spent 20 hours over a weekend mapping out physics logic, and implemented rendering after many mathematical calculations to determine where items should be rendered on the OLED. This task was made even more difficult with the addition of slopes, which required 10 more hours of calculations to ensure the ball can roll up and down slopes. The team successfully finished the engine to achieve a smooth physics engine and an impressive isomorphic point-of-view.
