@@ -8,7 +8,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 	<link rel="shortcut icon" href="../frontend/favicon.png">
-	<link rel="stylesheet" href="aboutstyle.css" />
+	<link rel="stylesheet" href="../frontend/aboutstyle.css" />
 
 	<title>BYOL | About</title>
 </head>
@@ -50,10 +50,10 @@
 			<a class="navbar-brand">
 				<span class="navHeader">JUMP TO SECTION</span>
 			</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar2">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<div class="collapse navbar-collapse" id="collapsibleNavbar2">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link" href="#top">TOP</a></li>
 					<li class="nav-item"><a class="nav-link" href="#demo">DEMO</a></li>
@@ -101,16 +101,41 @@
 
 			<br><a class="anchor" id="design"></a><h2>Design</h2>
 
-			<img class="img-fluid rounded mx-auto d-block" src="../lab/statediagram_colorcoded.png">
+			<div class="row text-center">
+				<div class="col-md-1"></div>
+				<div class="col-md-10"><img class="img-fluid rounded mx-auto d-block" src="../lab/statediagram_colorcoded.png"></div>
+				<div class="col-md-1"></div>
+			</div>
 			<h6 class="text-center">Fig. 1: State diagram of LaunchPad code. Andrew led orange tasks and Jason led blue tasks.</h6>
 
-			<img class="img-fluid rounded mx-auto d-block" src="../lab/systemarchitecture_colorcoded.png">
+			<div class="row text-center">
+				<div class="col-md-1"></div>
+				<div class="col-md-10"><img class="img-fluid rounded mx-auto d-block" src="../lab/systemarchitecture_colorcoded.png"></div>
+				<div class="col-md-1"></div>
+			</div>
 			<h6 class="text-center">Fig. 2: System architecture of entire project. Andrew led orange tasks and Jason led blue tasks.</h6>
 			<br>
 
 
 
 			<br><a class="anchor" id="implementation"></a><h2>Implementation</h2>
+			
+			<div class="row text-center">
+				<div class="col-md-3"></div>
+				<div class="col-md-6"><img class="img-fluid rounded mx-auto d-block" src="../lab/IRdiagram.png"></div>
+				<div class="col-md-3"></div>
+			</div>
+			<h6 class="text-center">Fig. 3: Circuit diagram for interfacing the IR receiver to GPIO.</h6>
+			
+			<div class="row text-center">
+				<div class="col-md-3"></div>
+				<div class="col-md-6"><img class="img-fluid rounded mx-auto d-block" src="../lab/OLEDdiagram.png"></div>
+				<div class="col-md-3"></div>
+			</div>
+			<h6 class="text-center">Fig. 4: Circuit diagram for interfacing the Adafruit OLED to SPI.</h6>
+
+			<img class="img-fluid rounded mx-auto d-block" src="../lab/scarymath.png">
+			<h6 class="text-center">Fig. 5: Calculations for new velocity vectors, calculated every frame.</h6>
 
 			<br><a class="anchor" id="challenges"></a><h2>Challenges</h2>
 			<p>For the main menu, most of the functionality already existed within the previous labs and did not require significant debugging. The main challenges of getting the menu system to work included getting letters to dynamically center in username mode. Initially, when inputting the username, the letters would emerge from left to right. This, however, made the screen empty and not as pleasant to look at. To implement the dynamic centering, the main issue was knowing where to erase and update characters since any user input would change the position of every character. We solved this problem by erasing the line entirely and redrawing the entire char array.</p>
@@ -121,6 +146,11 @@
 
 
 			<br><a class="anchor" id="future-work"></a><h2>Future Work</h2>
+			<p>There are three main features that we would have liked to implement if we had additional time. This included additional gameplay features, a way to successfully interrupt the AWS push at the end of the level if the user loses connection, and a way to automatically update the user levels without degrading the responsiveness of the UI/gameplay.</p>
+			<p>Currently, the gameplay mainly only features being able to move a marble on the screen. Ideally there would be other obstacles apart from falling off the edge of the map. These would be things such as trampolines, fire, and moving entities. These things would make the game a bit more engaging.</p>
+			<p>One possibility not accounted for is the LaunchPad becoming disconnected from the internet. As of now, the program simply hangs and becomes unresponsive when disconnected before finishing a <code>GET</code> or <code>POST</code>. One possible fix for this is to exit the request if it takes longer than some time value, and roll back level and leaderboard data to the previous level and leaderboard data snapshot.</p>
+			<p>User level automatic updating can be done through a separate LaunchPad connected to the original LaunchPad through UART or similar data transfer protocol. The current implementation makes a <code>GET</code> request before every level selection to ensure that level and leaderboard information is up-to-date. A secondary LaunchPad could enter a loop of constantly sending <code>GET</code> requests, and updating the main board's level data asynchronously. This would allow the original board to continue executing gameplay without requiring a <code>GET</code> immediately before the level begins. In the end, this idea was given low priority, as <code>GET</code> and <code>POST</code> requests already execute in mere seconds.</p>
+
 
 			<br><a class="anchor" id="bill-of-materials"></a><h2>Bill of Materials</h2>
 			<p>	This final project is software oriented and does not require any material that hasn't already been provided in class. Apart from the already required CC3200 Texas Instrument Microcontroller and AWS account, this project will require the AT&T S10-S3 remote, a Vishay TSOP 31336 Infrared receiver, a 100 ohm resistor, a 100 microfarad capacitor, an Adafruit OLED display board, and various circuit components to connect modules together. No other materials are used, and the project can be completely recreated using only provided laboratory materials.</p>

@@ -1,4 +1,4 @@
-lines = [line.strip() for line in open("temp.md", encoding='utf-8')]
+lines = [line.strip() for line in open("temp.md", encoding='utf-8', errors='strict')]
 
 codePrefix = "<code>"
 suffix = "</code>"
@@ -23,7 +23,8 @@ def replaceCode(line):
 
 def replaceUnderscores(line):
 	return line.replace("_", "\\_")
-
+def replaceQuote(line):
+	return line.replace("’", "'").replace('\u02EE', '"')
 for line in lines:
 	if line == "": continue
 	if line[:3]=="###":
