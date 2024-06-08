@@ -3,6 +3,8 @@ lines = [line.strip() for line in open("temp.md", encoding='utf-8', errors='stri
 codePrefix = "<code>"
 suffix = "</code>"
 
+import pyperclip
+
 def replaceCode(line):
 	stars = []
 	for i in range(len(line)):
@@ -24,14 +26,18 @@ def replaceCode(line):
 def replaceUnderscores(line):
 	return line.replace("_", "\\_")
 def replaceQuote(line):
-	return line.replace("’", "'").replace('\u02EE', '"')
+	return line.replace("’", "'").replace('”', '"')
+
+res = []
 for line in lines:
 	if line == "": continue
 	if line[:3]=="###":
 		line = line[4:]
-		print()
-		print("<h3>"+line+"</h3>")
+		res.append("")
+		res.append("<h3>"+line+"</h3>")
 		continue
 	
 	line = replaceCode(line)
-	print("<p>"+line+"</p>")
+	line = replaceQuote(line)
+	res.append("<p>"+line+"</p>")
+pyperclip.copy("\n".join(res))
