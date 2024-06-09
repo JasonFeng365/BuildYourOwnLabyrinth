@@ -53,6 +53,11 @@ for line in lines:
 	if len(line) == 0:
 		res.append("\\\\")
 		continue
+	if line[:3]=="###":
+		line = line[4:]
+		res.append("")
+		res.append("\\subsection{"+line+"}")
+		continue
 	line = replaceFormatting(line)
 	line = replaceBold(line)
 	line = replaceCode(line)
