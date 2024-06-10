@@ -5,20 +5,26 @@ import requests
 app = Flask(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
-# certFolderPath = "../certificates/"
-certFolderPath = ""
+certFolderPath = "../certificates/"
+# certFolderPath = ""
 def getShadow():
-	caPath = certFolderPath+"rootCA.der"
-	certPath = certFolderPath+"certificate.pem.crt"
-	keyPath = certFolderPath+"private.pem.key"
-	endpoint = "a1uxys8rnu3pls-ats.iot.us-east-1.amazonaws.com"
+	file = open("data.json")
+	s = file.readline()
+	return s
+	# caPath = certFolderPath+"rootCA.der"
+	# certPath = certFolderPath+"certificate.pem.crt"
+	# keyPath = certFolderPath+"private.pem.key"
+	# endpoint = "a1uxys8rnu3pls-ats.iot.us-east-1.amazonaws.com"
 
-	# payload= '{"state": {"desired": {"mazedata": "'+data+'"}}}'
-	r = requests.get(f'https://{endpoint}:8443/things/Jason_CC3200_Part1/shadow', cert=(certPath,keyPath,caPath))
-	print("GET finished with response", r.status_code)
-	# print(r.text)
-
-	return r
+	# # payload= '{"state": {"desired": {"mazedata": "'+data+'"}}}'
+	# r = requests.get(f'https://{endpoint}:8443/things/Jason_CC3200_Part1/shadow', cert=(certPath,keyPath,caPath))
+	# print("GET finished with response", r.status_code)
+	# # print(r.text)
+	# output = open("data.json", "w")
+	# output.write(r.text)
+	# output.flush()
+	# return r
+print(getShadow())
 
 def postMazeData(payload):
 	caPath = certFolderPath+"rootCA.der"
