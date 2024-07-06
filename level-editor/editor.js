@@ -18,7 +18,7 @@ var curSelectedItem = null
 
 
 
-let endpoint = "https://jasonfeng365.pythonanywhere.com/api/"
+let endpoint = "https://jasonfeng365.pythonanywhere.com/byol/api/"
 
 let tiles = Array(25)
 
